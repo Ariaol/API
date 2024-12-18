@@ -16,7 +16,8 @@ class Arquivo extends Model
         'tamanho',
     ];
 
-    public function solicitacao() {
-        return $this->belongsTo(Solicitacao::class);
+    public function solicitacoes()
+    {
+        return $this->hasMany(Solicitacao::class);
     }
 }

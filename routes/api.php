@@ -2,14 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CursoController;
-use App\Http\Controllers\SetorController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\TipoController;
-use App\Http\Controllers\ArquivoController;
-use App\Http\Controllers\AlunoController;
-use App\Http\Controllers\AtendimentoController;
-use App\Http\Controllers\SolicitacaoController;
-use App\Http\Controllers\HistoricoController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\FileUploadController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +23,22 @@ use App\Http\Controllers\HistoricoController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::post('/upload', [FileUploadController::class, 'uploadFile']);
+
+Route::get('/menu', [MenuController::class, 'index'])->name('menu');
+
+Route::post('/teste', [AuthController::class, 'teste'])->middleware(); //para restringir acesso.
+Route::post('/teste', [AuthController::class, 'teste'])->middleware('auth:sanctum'); //somente usuarios com token válido.
+
+Route::middleware('auth:sanctum')->group(function () {
+    //Agrupa rotas para serem protegidas
+});
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/users', [UserController::class, 'index']);
 
 Route::get('/curso', [CursoController::class, 'index']);
 Route::get('/curso/{id}', [CursoController::class, 'show']);
@@ -73,3 +87,6 @@ Route::get('/historico/{id}', [HistoricoController::class, 'show']);
 Route::post('/historico', [HistoricoController::class, 'store']);
 Route::put('/historico/{id}', [HistoricoController::class, 'update']);
 Route::delete('/historico/{id}', [HistoricoController::class, 'destroy']);
+
+
+

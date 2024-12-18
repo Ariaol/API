@@ -19,7 +19,7 @@ class CursoController extends Controller
     public function store(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'nome => required|string|max:255',
+            'nome => required|string|in:sistemas,redes,engenharia',
         ]);
 
         if ($validate->fails()) {
@@ -58,7 +58,7 @@ class CursoController extends Controller
         }
 
         $request->validate([
-            'nome' => 'required|string|max:255',
+             'nome => required|string|in:sistemas,redes,engenharia',
         ]);
 
         $curso->update($request->all());

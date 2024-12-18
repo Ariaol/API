@@ -17,7 +17,7 @@ class ArquivoController extends Controller
         ], 200);
     }
 
-    public function store(Request $request)
+    public function upload(Request $request)
     {
         $validate = Validator::make($request->all(), [
             'nome => required|string|max:255',

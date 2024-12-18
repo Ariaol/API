@@ -16,10 +16,10 @@ class Aluno extends Model
     ];
 
     public function curso() {
-        return $this->hasOne(Curso::class, 'id', 'id_cursos');
+        return $this->belongsTo(Curso::class, 'id', 'id_cursos');
     }
 
     public function solicitacao() {
-        return $this->belongsTo(Solicitacao::class);
+        return $this->hasMany(Solicitacao::class);
     }
 }

@@ -18,16 +18,16 @@ class Solicitacao extends Model
     ];
 
     public function tipo() {
-        return $this->hasOne(Tipo::class, 'id', 'id_tipos');
+        return $this->belongsTo(Tipo::class, 'id', 'id_tipos');
     }
     public function aluno() {
-        return $this->hasOne(Aluno::class, 'id', 'id_alunos');
+        return $this->belongsTo(Aluno::class, 'id', 'id_alunos');
     }
     public function arquivo() {
-        return $this->hasOne(Arquivo::class, 'id', 'id_arquivos');
+        return $this->belongsTo(Arquivo::class, 'id', 'id_arquivos');
     }
     public function atendimento() {
-        return $this->hasOne(Atendimento::class, 'id', 'id_atendimentos');
+        return $this->belongsTo(Atendimento::class, 'id', 'id_atendimentos');
     }
 
     public function historico() {

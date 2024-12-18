@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tipo;
+use App\Enums\TipoEnum; // Certifique-se de importar o enum
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,9 +20,12 @@ class TipoController extends Controller
 
     public function store(Request $request)
     {
+        // Obter os valores válidos do enum
+        $tiposValidos = array_column(TipoEnum::cases(), 'value');
+
         // Validação dos dados de entrada
         $validate = Validator::make($request->all(), [
-            'tipo' => 'required|string|in:trancamento,declaracao,justificativa', // Tipo válido
+            'tipo' => 'required|string|in:' . implode(',', $tiposValidos), // Validação dinâmica com enum
         ]);
 
         // Verificar se a validação falhou
@@ -49,8 +53,8 @@ class TipoController extends Controller
 
         if(!$tipo) {
             return response()->json([
-                'message' => 'Não encontrado.'
-            ], 404);
+                'message' => 'Registro não encontrado.'
+            ], 400);
         }
         return response()->json([
             'data' => $tipo
@@ -62,8 +66,8 @@ class TipoController extends Controller
 
         if(!$tipo) {
             return response()->json([
-                'message' => 'Não deu certo'
-            ], 404);
+                'message' => 'Atualização falhou.'
+            ], 422);
         }
 
         $request->validate([
@@ -73,7 +77,7 @@ class TipoController extends Controller
         $tipo->update($request->all());
 
         return response()->json([
-            'message' => 'Deu certo',
+            'message' => 'Atualizado.',
             'data' =>$tipo
         ], 200);
     }
@@ -84,14 +88,14 @@ class TipoController extends Controller
         if(!$tipo) {
             return response()->json([
 
-                'message' => 'Não apagou'
-            ], 404);
+                'message' => 'Falhou ao apagar.'
+            ], 422);
         }
 
         $tipo->delete();
 
         return response()->json([
-            'message' => 'Apagou'
+            'message' => 'Apagado.'
         ], 200);
     }
 }
